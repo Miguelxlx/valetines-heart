@@ -35,13 +35,13 @@ export default function App() {
 
   const messages = useMemo(
     () => [
-      "Reason #1: your smile is illegal 🥲",
-      "Reason #2: you make everything feel lighter",
-      "Reason #3: I love your laugh",
-      "Reason #4: you’re my favorite person",
-      "Reason #5: your hugs are home",
-      "Reason #6: you’re beautiful (duh)",
-      "Reason #7: you’re my peace ❤️",
+      "I'm going to marry you one day",
+      "I didn't really know what love was until I met you",
+      "You are my home, and my only safe place in the world",
+      "I'm yours forever, and after that too",
+      "Did I tell you you are the hottest girl in the world? Cuz you are",
+      "You are the only thing I look forward to after work",
+      "I will always, strongly, firmly, and securely love you",
     ],
     []
   );

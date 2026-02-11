@@ -35,12 +35,12 @@ export default function App() {
 
   const messages = useMemo(
     () => [
-      "I'm going to marry you one day",
-      "I didn't really know what love was until I met you",
-      "You are my home, and my only safe place in the world",
-      "I'm yours forever, and after that too",
-      "Did I tell you you are the hottest girl in the world? Cuz you are",
-      "You are the only thing I look forward to after work",
+      "I'm going to marry you one day, no matter what happens",
+      "I didn't really know what love was until I met you, and those days we spent together are the best memories I have",
+      "You are my home, and my only safe place in the world. Even in complete silence and not doing anything, being with you is still my favorite activity",
+      "I'm yours forever, and after that too. Never forget that",
+      "Did I tell you you are the hottest girl in the world? Your eyes, hair, nose, every inch of you is perfect",
+      "You are the only thing I look forward to after work. Even the roughest days get fixed after a few minutes of talking to my princess",
       "I will always, strongly, firmly, and securely love you",
     ],
     []

@@ -360,15 +360,15 @@ const onHeartClick = (id) => {
         {/* Final screen */}
         {stage === "accepted" && (
           <div className="finalScreen">
-            <div className="finalTitle">Yay!! 💘</div>
+            <div className="finalTitle">💘</div>
             <div className="finalText">
               Here’s the plan:
               <br />
-              <b>Friday, 7:30 PM</b> — I’m taking you out.
+              I don't really have one but I'd like to spend the day with you doing anything
               <br />
-              Dress code: <b>pretty</b> (your default)
+              We can even watch Heated Rivalry
             </div>
-            <div className="finalSub">(Replace this with the real details.)</div>
+            <div className="finalSub">(I love you more than you can imagine.)</div>
           </div>
         )}
       </div>

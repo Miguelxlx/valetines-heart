@@ -338,20 +338,20 @@ const onHeartClick = (id) => {
         {stage === "unlocked" && (
           <div className="modalBackdrop">
             <div className="modalCard">
-              <div className="modalTitle">Okay… one last thing 🥺</div>
+              <div className="modalTitle">So..</div>
               <div className="modalText">Will you be my Valentine?</div>
 
               <div className="modalActions">
                 <button className="btn yes" onClick={onYes}>
-                  Yes 💖
+                  Yes my love 💖
                 </button>
                 <button className="btn no" onClick={onNo}>
-                  No 😶
+                  No, I hate you
                 </button>
               </div>
 
               <div className="modalHint">
-                (You can’t break my heart, only click the hearts.)
+                (You don't really have an option just letting you know)
               </div>
             </div>
           </div>

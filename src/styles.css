@@ -1,0 +1,496 @@
+:root {
+  --text: rgba(20, 10, 20, 0.92);
+  --muted: rgba(20, 10, 20, 0.62);
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  max-width: none;
+  text-align: left;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: rgba(25, 10, 25, 0.9);
+
+  background:
+    radial-gradient(900px 650px at 18% 22%, rgba(255, 120, 190, 0.40), transparent 62%),
+    radial-gradient(900px 650px at 82% 18%, rgba(255, 170, 210, 0.32), transparent 58%),
+    radial-gradient(1100px 800px at 45% 85%, rgba(190, 140, 255, 0.22), transparent 62%),
+    linear-gradient(180deg, #fff5fb 0%, #ffe6f2 45%, #f7e9ff 100%);
+}
+
+* { box-sizing: border-box; }
+
+.page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  width: min(1100px, 100%);
+  padding: 0 26px;
+}
+
+.topbar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px 0 10px;
+}
+
+.title {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  color: rgba(70, 10, 55, 0.92);
+  text-shadow: 0 10px 30px rgba(255, 120, 190, 0.35);
+}
+
+
+.gameWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 18px 0;
+}
+
+.playfield {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.gameArea {
+  position: relative;
+  border-radius: 22px;
+  border: 1px solid rgba(120, 70, 110, 0.22);
+  box-shadow: 0 14px 50px rgba(40, 10, 40, 0.18);
+  overflow: visible; /* keep for badge/arrow */
+}
+
+/* Hearts */
+.heart {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ff5aa5;
+z-index: 100;
+  background: rgba(255, 90, 165, 0.16);
+  outline: 1px solid rgba(255, 90, 165, 0.32);
+
+  transition: transform 160ms ease, filter 160ms ease;
+  user-select: none;
+}
+
+.heart:hover {
+  transform: scale(1.15) rotate(-6deg);
+  filter: drop-shadow(0 6px 10px rgba(255, 90, 165, 0.35));
+}
+
+.heart.runner {
+  filter: drop-shadow(0 10px 16px rgba(255, 0, 80, 0.25));
+}
+
+.heart.collected {
+  animation: popOut 240ms ease forwards;
+  pointer-events: none;
+}
+
+@keyframes popOut {
+  to { transform: scale(0.3); opacity: 0; }
+}
+
+/* Progress badge attached to right side of the box */
+.progressBadge {
+  position: absolute;
+  top: 50%;
+  right: -220px;            /* how far outside the box it sits */
+  transform: translateY(-50%);
+
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+
+  color: rgba(120, 10, 70, 0.98);
+  text-shadow: 0 3px 16px rgba(255, 120, 190, 0.35);
+
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(255, 120, 190, 0.35);
+  padding: 12px 16px;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(40, 10, 40, 0.12);
+
+  white-space: nowrap;
+  z-index: 40;
+}
+
+.progressBadge b {
+  color: rgba(60, 0, 40, 1);
+}
+
+
+@keyframes arrowFade {
+  from { opacity: 0; transform: translateY(-50%) translateX(-8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(-50%) translateX(0) scale(1); }
+}
+
+.memeArrowImg {
+  position: absolute;
+
+  /* position it to the right of the badge */
+  top: 44%;
+  right: -327px;
+
+  width: 240px;
+  height: auto;
+
+  /* flip it so it points LEFT toward the badge (PNG points down-right by default) */
+  transform: translateY(-62%) scaleX(-1) rotate(8deg);
+
+  opacity: 0;
+  filter: drop-shadow(0 14px 28px rgba(220, 35, 70, 0.22));
+  animation: arrowReveal 9s ease forwards; /* VERY slow */
+  z-index: 20001;
+  pointer-events: none;
+}
+
+@keyframes arrowReveal {
+  0%   { opacity: 0; transform: translateY(-62%) scaleX(-1) rotate(8deg) scale(0.96); }
+  35%  { opacity: 0; }
+  100% { opacity: 1; transform: translateY(-62%) scaleX(-1) rotate(8deg) scale(1); }
+}
+
+
+@keyframes arrowDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.noteBackdrop {
+  position: fixed;             /* was absolute */
+  inset: 0;
+  background: rgba(30, 10, 30, 0.22);
+  backdrop-filter: blur(6px);
+  display: grid;
+  place-items: center;
+  z-index: 10000;              /* above everything */
+}
+
+
+.noteCard {
+  width: 720px;
+  max-width: calc(100% - 48px);
+  padding: 26px 26px 18px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(120, 70, 110, 0.22);
+  box-shadow: 0 22px 80px rgba(40, 10, 40, 0.22);
+
+  text-align: left;
+  animation: noteIn 180ms ease-out;
+  position: relative;
+}
+
+@keyframes noteIn {
+  from { transform: translateY(8px) scale(0.98); opacity: 0; }
+  to   { transform: translateY(0)   scale(1);    opacity: 1; }
+}
+
+.noteTitle {
+  font-size: 18px;
+  color: rgba(60, 20, 60, 0.82);
+  margin-bottom: 10px;
+}
+
+.noteText {
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 800;
+  color: rgba(30, 10, 30, 0.92);
+  margin-bottom: 18px;
+}
+
+.noteClose {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(120, 70, 110, 0.22);
+  background: rgba(255, 120, 190, 0.18);
+  color: rgba(30, 10, 30, 0.92);
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.noteClose:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 120, 190, 0.26);
+}
+
+/* Buttons */
+.btn {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(120, 70, 110, 0.22);
+  background: rgba(255, 120, 190, 0.14);
+  color: rgba(30, 10, 30, 0.92);
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease;
+  font-weight: 800;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 120, 190, 0.22);
+}
+
+.btn.no {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.btn.no:hover {
+  background: rgba(0, 0, 0, 0.10);
+}
+
+/* Unlock modal */
+.modalBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 10, 30, 0.18);
+  backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  z-index: 90;
+}
+
+.modalCard {
+  width: 720px;
+  max-width: calc(100% - 48px);
+  padding: 26px 26px 20px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(120, 70, 110, 0.22);
+  box-shadow: 0 22px 80px rgba(40, 10, 40, 0.22);
+
+  text-align: left;
+}
+
+.modalTitle {
+  font-size: 18px;
+  color: rgba(60, 20, 60, 0.78);
+  margin-bottom: 10px;
+}
+
+.modalText {
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: rgba(30, 10, 30, 0.92);
+  margin: 6px 0 18px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+}
+
+.modalHint {
+  margin-top: 14px;
+  color: rgba(60, 20, 60, 0.62);
+  font-size: 13px;
+}
+
+.shake { animation: shake 380ms ease; }
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+
+/* Final */
+.finalScreen {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+
+  background: radial-gradient(
+    900px 400px at 50% 35%,
+    rgba(255, 90, 165, 0.18),
+    rgba(0, 0, 0, 0.12)
+  );
+}
+
+.finalTitle {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: rgba(30, 10, 30, 0.92);
+}
+
+.finalText {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(30, 10, 30, 0.86);
+}
+
+.finalSub {
+  margin-top: 12px;
+  color: rgba(60, 20, 60, 0.62);
+}
+
+/* Intro fake-out (full black screen) */
+.introBackdrop {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+}
+
+.introCard {
+  width: 720px;
+  max-width: calc(100% - 56px);
+  padding: 28px 26px 22px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 22px 90px rgba(0, 0, 0, 0.85);
+
+  text-align: center;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.introTitle {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.introActions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+.introBackdrop .btn {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.introBackdrop .btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.introContinue {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.introContinue:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.footer {
+  width: min(1100px, 100%);
+  text-align: center;
+  padding: 16px 26px;
+  color: rgba(60, 20, 60, 0.62);
+}
+
+.helpBtn {
+  position: absolute;
+  left: -130px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(220, 35, 70, 0.25);
+  background: rgba(255, 255, 255, 0.88);
+  color: rgba(120, 10, 70, 0.95);
+  font-weight: 900;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(40, 10, 40, 0.12);
+  opacity: 0;
+  animation: helpFadeIn 1.8s ease forwards;
+  z-index: 20002;
+}
+
+@keyframes helpFadeIn {
+  from { opacity: 0; transform: translateY(-50%) translateX(-10px); }
+  to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+.gameClip {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px; /* must match .gameArea */
+  overflow: hidden;    /* ✅ clips overlays to rounded corners */
+
+  /* keep the inner background here so it still looks the same */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 240, 250, 0.60)
+  );
+}
+
+.capybara {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  /* ✅ adjust these two numbers only */
+  --capy-x: -75px;
+  --capy-y: -40px;
+
+  width: 210px;
+  height: auto;
+
+  transform: translate(-50%, -50%) translate(var(--capy-x), var(--capy-y)) scale(1);
+  filter: drop-shadow(0 18px 35px rgba(0, 0, 0, 0.18));
+  z-index: 90;
+  pointer-events: none;
+
+  opacity: 0;
+  animation: capyIn 1.2s ease forwards;
+}
+
+@keyframes capyIn {
+  from { opacity: 0; transform: translate(-50%, -50%) translate(var(--capy-x), var(--capy-y)) scale(0.98); }
+  to   { opacity: 1; transform: translate(-50%, -50%) translate(var(--capy-x), var(--capy-y)) scale(1); }
+}

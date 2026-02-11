@@ -362,7 +362,7 @@ const onHeartClick = (id) => {
           <div className="finalScreen">
             <div className="finalTitle">💘</div>
             <div className="finalText">
-              Here’s the plan:
+              <b>Here’s the plan:</b>
               <br />
               I don't really have one but I'd like to spend the day with you doing anything
               <br />
